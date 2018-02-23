@@ -29,7 +29,7 @@ app.use((req, res, next) => {
 
 // Rotas da api.
 app.use('/drop', DropRouter);
-app.use('/user', UserRouter);
+app.use('/usuario', UserRouter);
 
 // middleware para erros.
 app.use((req, res, next) => {

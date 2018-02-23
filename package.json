@@ -9,6 +9,7 @@
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "body-parser": "^1.18.2",
+    "crypto": "^1.0.1",
     "dropbox": "^3.0.4",
     "express": "^4.16.2",
     "firebase": "^4.10.1",
