@@ -1,0 +1,5 @@
+// Servidor resetar automaticamente ao mudar algum arquivo no projeto. Adicione no package.json
+
+"scripts": {
+    "start": "nodemon --exec babel-node server.js"
+  }
