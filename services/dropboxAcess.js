@@ -25,6 +25,19 @@ class DropBoxService {
     });
   }
 
+  // Faz o upload do arquivo.
+  uploadArquivo(file, path_name) {
+    return new Promise((resolve, reject) => {
+      this.__dbx.filesUpload({path: "/" + path_name, contents: file})
+        .then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
 }// Fim da classe.
 
 export default DropBoxService;
