@@ -75,6 +75,7 @@ router.post("/files/upload", upload.single('arqs'), async (req, res, next) => {
 });
 
 // ************************************ Retorna arquivos de um usuário ************************************
+// http://localhost:3001/drop/user/files/weqeqwe222
 router.get('/user/files/:id_usuario', (req, res, next) => {
   const id_usuario = req.params.id_usuario;
   FirebaseAcess.getFilesUser(id_usuario).then(snap => {
@@ -85,6 +86,7 @@ router.get('/user/files/:id_usuario', (req, res, next) => {
 });
 
 // ***************************** Retorna todos os arquivos perto do usuário. *****************************
+// http://localhost:3001/drop/files/near?lat=22&lon=33
 router.get('/files/near', (req, res, next) => {
   const coord = {lat: req.query.lat, lon: req.query.lon};
   FirebaseAcess.getFilesNear(coord).then(snap => {
@@ -95,8 +97,9 @@ router.get('/files/near', (req, res, next) => {
 });
 
 // ***************************** Baixa um arquivo *****************************
+// http://localhost:3001/drop/files/download?path_name=arquivo.zip
 router.get('/files/download', (req, res, next) => {
-  const path_name = req.query.path_name; // ?path_name=arquivo.zip
+  const path_name = req.query.path_name;
   dropBoxService.downloadArquivo(path_name).then(snap => {
     res.status(200).json({msg: 1, data: snap});
   }).catch(err => {
@@ -105,6 +108,7 @@ router.get('/files/download', (req, res, next) => {
 });
 
 // ***************************** Deleta um arquivo *****************************
+// http://localhost:3001/drop/files/delete?path_name=arquivo.png
 router.delete('/files/delete', (req, res, next) => {
   const path_name = req.query.path_name;
   // console.log(path_name);
