@@ -46,7 +46,7 @@ router.post("/user/logged", (req, res, next) => {
       res.status(200).json({msg: -1, data: snap.data});
     }
   }).catch(err => {
-    console.log(err, "ERRO");
+    // console.log(err, "ERRO");
     res.status(501).json({msg: 501, data: err.data});
   });
 });
@@ -61,10 +61,10 @@ router.post("/files/upload", upload.single('arqs'), async (req, res, next) => {
   FirebaseAcess.registerFile(info).then(snap => {
     if(snap.msg === 1) {
       dropBoxService.uploadArquivo(req.file.buffer, info.path_name).then(snap => {
-        console.log(snap);
+        // console.log(snap);
         res.status(200).json({msg: 1, data: snap});
       }).catch(err => {
-        console.log(err);
+        // console.log(err);
         res.status(200).json({msg: 0, data: err});
       });
     }
@@ -96,9 +96,26 @@ router.get('/files/near', (req, res, next) => {
 
 // ***************************** Baixa um arquivo *****************************
 router.get('/files/download', (req, res, next) => {
-  const path_name = req.query.path_name;
+  const path_name = req.query.path_name; // ?path_name=arquivo.zip
   dropBoxService.downloadArquivo(path_name).then(snap => {
     res.status(200).json({msg: 1, data: snap});
+  }).catch(err => {
+    res.status(200).json({msg: 0, data: err});
+  });
+});
+
+// ***************************** Deleta um arquivo *****************************
+router.delete('/files/delete', (req, res, next) => {
+  const path_name = req.query.path_name;
+  // console.log(path_name);
+  FirebaseAcess.deleteInfoArquivo(path_name).then(snap => {
+    if(snap === 1) {
+      dropBoxService.deletaArquivo(path_name).then(delsnap => {
+        res.status(200).json({msg: 1, data: delsnap});
+      }).catch(err => {
+        res.status(200).json({msg: 0, data: err});
+      });
+    }
   }).catch(err => {
     res.status(200).json({msg: 0, data: err});
   });

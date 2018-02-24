@@ -11,7 +11,7 @@ class FirebaseAcess {
   static registerUser(user) {
     return new Promise((resolve, reject) => {
       this.isRegister(user.name).then(res => {
-        console.log(res);
+        // console.log(res);
         if(res.msg === 0) {
           // Gerar id.
           const _id = '_' + Math.random().toString(36).substr(2, 9);
@@ -112,6 +112,49 @@ class FirebaseAcess {
           resolve({msg: 1, data: lista});
         }
       });
+    });
+  }
+
+  // Retorna a chave de um arquivo.
+   static getKey(path_name) {
+    return new Promise((resolve, reject) => {
+       filesFire.orderByChild("path_name").equalTo(path_name).on("value", (snap) => {
+        if(snap.val() !== null) {
+          const key = Object.keys(snap.val())[0];
+          // console.log(key);
+          resolve(key);
+        }
+        else {
+          // console.log("ERROOOOOOOOOOOO, ", snap.val());
+          reject(0);
+        }
+      }, (errorObject) => {
+        // console.log("ERROROBJETC, ", errorObject);
+        reject(0);
+      });
+    });
+  }
+
+  // Deleta info de um arquivo.
+   static deleteInfoArquivo(path_name) {
+    return new Promise((resolve, reject) => {
+      this.getKey(path_name).then(res => {
+        // console.log("************ MINHA CHAVE: ", res);
+        if(res !== 0) {
+          const delFile = filesFire.child(res);
+            delFile.remove().then(delsnap => {
+              // console.log("res: ", delsnap);
+              resolve(1);
+            }).catch(err => {
+              // console.log("****DELETEINFOARQUIVO, ", err);
+              reject(err);
+            });
+        }
+      }).catch(err => {
+        // console.log("DELETEINFOARQUIVO, ", err);
+        reject(err);
+      });
+        
     });
   }
 

@@ -16,10 +16,10 @@ class DropBoxService {
   getAll() {
     return new Promise((resolve, reject) => {
       this.__dbx.filesListFolder({path: ''}).then(res => {
-        console.log(res);
+        // console.log(res);
         resolve(res);
       }).catch(err => {
-        console.log(err);
+        // console.log(err);
         reject(err);
       })
     });
@@ -50,6 +50,18 @@ class DropBoxService {
       });
     });
   }
+
+  // Deleta um arquivo.
+  deletaArquivo(path_name) {
+    return new Promise((resolve, reject) => {
+      this.__dbx.filesDelete({path: "/" + path_name}).then(snap => {
+        resolve(snap);
+      }).catch(err => {
+        reject(err);
+      });
+    });
+  }
+  
 
 }// Fim da classe.
 
