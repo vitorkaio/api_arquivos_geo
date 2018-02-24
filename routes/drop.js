@@ -94,6 +94,14 @@ router.get('/files/near', (req, res, next) => {
   });
 });
 
-
+// ***************************** Baixa um arquivo *****************************
+router.get('/files/download', (req, res, next) => {
+  const path_name = req.query.path_name;
+  dropBoxService.downloadArquivo(path_name).then(snap => {
+    res.status(200).json({msg: 1, data: snap});
+  }).catch(err => {
+    res.status(200).json({msg: 0, data: err});
+  });
+});
 
 export default router;

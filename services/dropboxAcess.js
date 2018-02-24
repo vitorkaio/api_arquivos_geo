@@ -38,6 +38,19 @@ class DropBoxService {
     });
   }
 
+  // Faz o download do arquivo.
+  downloadArquivo(path_name) {
+    return new Promise((resolve, reject) => {
+      this.__dbx.filesDownload({path: "/" + path_name}).then(snap => {
+        // console.log("Donwload feito", snap.fileBinary);
+        resolve(snap);
+      }).catch(err => {
+        // console.log(err);
+        reject(null);
+      });
+    });
+  }
+
 }// Fim da classe.
 
 export default DropBoxService;
