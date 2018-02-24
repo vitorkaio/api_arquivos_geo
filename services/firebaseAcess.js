@@ -53,12 +53,30 @@ class FirebaseAcess {
   // Cadastra informações de um arquivo no banco de dados.
   static registerFile(info) {
     return new Promise((resolve, reject) => {
-        filesFire.push(info, erro => {
-          if(erro)
-            reject({msg: 501, data: "Erro interno do servidor"});
-          else 
-            resolve({msg: 1, data: "Arquivo salvo"});
-       });
+      this.fileIsRegister(info.path_name).then(snap => {
+        if(snap === true) {
+          filesFire.push(info, erro => {
+            if(erro)
+              reject({msg: 501, data: "Erro interno do servidor"});
+            else 
+              resolve({msg: 1, data: "Arquivo salvo"});
+         });
+        }
+        else
+          reject({msg: 0, data: "Arquivo já cadastrado"});
+      });      
+    });
+  }
+
+  // Verifica se um arquivo já foi cadastrado.
+  static fileIsRegister(path_name) {
+    return new Promise((resolve, reject) => {
+      filesFire.orderByChild("path_name").equalTo(path_name).on("value", (snap) => {
+        if(snap.val() === null)
+          resolve(true);
+        else
+          resolve(false);
+      });
     });
   }
 
