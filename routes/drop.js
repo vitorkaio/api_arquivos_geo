@@ -28,7 +28,7 @@ router.post('/user/register', (req, res, next) => {
   FirebaseAcess.registerUser(req.body).then(snap => {
     res.status(200).json(snap);
   }).catch(err => {
-    res.status(501).json(err);
+    res.status(200).json(err);
   });
 })
 
